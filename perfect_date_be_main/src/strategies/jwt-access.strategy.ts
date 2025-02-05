@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UserRepository } from 'src/modules/user/user.repo';
 import { access_token_public_key } from '../constants/jwt.constants'
+import { UserRepository } from 'src/modules/user/user.repo';
 @Injectable()
 export class JwtAccessTokenStrategy extends PassportStrategy(Strategy) {
     constructor(
@@ -17,6 +17,6 @@ export class JwtAccessTokenStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any) {
-        return await this.userRepository.findById(payload._id, ['user_name', '_id','user_role']);
+        return await this.userRepository.findById(payload._id);
     }
 }
