@@ -10,6 +10,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KeyTokenModule } from './modules/key-token/key-token.module';
 import { DatabasesModule } from './modules/databases/databases.module';
+import { PlansModule } from './modules/plans/plans.module';
+import { ActivitiesModule } from './modules/activities/activities.module';
+import { LikesModule } from './modules/likes/likes.module';
 
 
 @Module({
@@ -28,7 +31,7 @@ import { DatabasesModule } from './modules/databases/databases.module';
     AuthModule, 
     RoleModule, 
     PermissionsModule, 
-    KeyTokenModule, DatabasesModule
+    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, LikesModule
   ],
   controllers: [AppController],
   providers: [AppService],
