@@ -10,6 +10,9 @@ export class ErrorCode {
     static readonly REFRESH_TOKEN_EXPIRED = new ErrorCode(1406, 'Refresh token expired', HttpStatus.FORBIDDEN)
     static readonly REFRESH_TOKEN_INVALID = new ErrorCode(1407, 'Refresh token invalid', HttpStatus.FORBIDDEN)
     static readonly INVALID_TOKEN = new ErrorCode(1408, 'Invalid token', HttpStatus.FORBIDDEN)
+    static readonly FORBIDDEN = new ErrorCode(1409, 'Don\'t have permission', HttpStatus.FORBIDDEN)
+    static readonly PASSWORD_IS_NOT_EMPTY = new ErrorCode(1410, 'Password not empty', HttpStatus.BAD_REQUEST)
+
     private constructor(public readonly code: number, public readonly message: string, public readonly status: HttpStatus) { }
 
     toJSON() {

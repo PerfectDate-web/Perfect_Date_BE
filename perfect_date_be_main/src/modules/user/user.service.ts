@@ -12,5 +12,7 @@ export class UserService {
     return this.userRepository.createUser(dto);
   }
 
-  
+  async findById(id: string) {
+    return this.userRepository.findById(id);
+  }
 }

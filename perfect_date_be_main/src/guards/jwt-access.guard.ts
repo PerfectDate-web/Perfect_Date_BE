@@ -1,12 +1,15 @@
 import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY } from 'src/decorators/public.decorator';
+import { ErrorCode } from 'src/enums/error-code.enum';
+import { CustomException } from 'src/exception-handle/custom-exception';
 
 @Injectable()
 export class JwtAccessTokenGuard extends AuthGuard('jwt') {
-    constructor(private reflector: Reflector) {
+	constructor(private reflector: Reflector) {
 		super();
 	}
 	canActivate(
@@ -22,11 +25,25 @@ export class JwtAccessTokenGuard extends AuthGuard('jwt') {
 		return super.canActivate(context);
 	}
 
-	handleRequest(err, user, info) {
-        // You can throw an exception based on either "info" or "err" arguments
-        if (err || !user) {
-          throw err || new UnauthorizedException('Token is invalid');
-        }
-        return user;
-      }
+	handleRequest(err, user, info, context: ExecutionContext) {
+		const request: Request = context.switchToHttp().getRequest();
+
+		// You can throw an exception based on either "info" or "err" arguments
+		if (err || !user) {
+			throw err || new UnauthorizedException('Token is invalid');
+		}
+		const targetMethod = request.method;
+		const targetEndpoint = request.route.path;
+
+
+		const permissions = user?.role_permissions ?? [];
+		console.log("permissions"+JSON.stringify(permissions));
+		const isExist = permissions.find((permission) =>
+			(targetMethod === permission.permission_method) && (targetEndpoint === permission.permission_apiPath)
+		);
+		if (!isExist) {
+			throw new CustomException(ErrorCode.FORBIDDEN)
+		}
+		return user;
+	}
 }

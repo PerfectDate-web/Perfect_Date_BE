@@ -25,6 +25,15 @@ export class AuthService {
         return await this.userRepository.createUser(googleUser);
     }
 
+    async validateUser(email: string, pass: string) {
+        const user = await this.userRepository.findByEmail(email);
+        if (user && user.user_password === pass) {
+            const { user_password, ...result } = user;
+            return result;
+        }
+        return null;
+    }
+
     async login(user: UserInterface, res: Response) {
         const payload = {
             sub: "token login",
@@ -40,8 +49,7 @@ export class AuthService {
         }
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
-            // secure: this.configService.get<string>('NODE_ENV') === 'production' ? true : false,
-            secure: true,
+            secure: this.configService.get<string>('NODE_ENV') === 'production' ? true : false,
             maxAge: +ms(this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRATION_TIME')),
             sameSite: 'none'
         })
@@ -102,8 +110,8 @@ export class AuthService {
 
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
-            // secure: this.configService.get<string>('NODE_ENV') === 'production' ? true : false,
-            secure: true,
+            secure: this.configService.get<string>('NODE_ENV') === 'production' ? true : false,
+            // secure: true,
             maxAge: +ms(this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRATION_TIME')),
             sameSite: 'none'
         })

@@ -6,6 +6,7 @@ import { UserInterface } from '../user/dto/response/user.interface';
 import { Public } from 'src/decorators/public.decorator';
 import { Request, Response } from 'express';
 import { ResponseMessage } from 'src/decorators/response-message.decorator';
+import { LocalAuthGuard } from 'src/guards/local.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -33,4 +34,11 @@ export class AuthController {
     return this.authService.handleRefreshToken(refreshToken, response);
   }
 
+  @Post('login')
+  @Public()
+  @UseGuards(LocalAuthGuard)
+  @ResponseMessage('Login successfully')
+  async login(@User() user: UserInterface, @Res({ passthrough: true }) res: Response) {
+    return this.authService.login(user, res);
+  }
 }

@@ -7,20 +7,22 @@ import { UserModule } from '../user/user.module';
 import { KeyTokenModule } from '../key-token/key-token.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtAccessTokenStrategy } from 'src/strategies/jwt-access.strategy';
+import { RoleModule } from '../role/role.module';
+import { LocalStrategy } from 'src/strategies/local.strategy';
 
 @Module({
   imports: [
-    // ConfigModule.forFeature(googleOauthConfig),
     UserModule,
     KeyTokenModule,
+    RoleModule,
     PassportModule,
     JwtModule.register({
       signOptions: {
-        algorithm: 'RS256', 
+        algorithm: 'RS256',
       },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService,GoogleStrategy,JwtAccessTokenStrategy],
+  providers: [AuthService, GoogleStrategy, JwtAccessTokenStrategy, LocalStrategy],
 })
-export class AuthModule {}
+export class AuthModule { }

@@ -21,6 +21,7 @@ export class UserRepository{
             user_name: dto.name,
             user_verified: dto.verified,
             user_avatar: dto.avatar,
+            user_password: ''
         });
     }
 

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { UserSex } from "src/enums/user-sex.enum";
+import { USER_ROLE } from "src/modules/databases/sample";
 
 
 @Schema({
@@ -15,6 +16,9 @@ export class User {
     @Prop({ default: null })
     user_avatar: string;
 
+    @Prop({})
+    user_password: string;
+
     @Prop({ default: false })
     user_verified: boolean;
 
@@ -24,7 +28,7 @@ export class User {
     @Prop({ default: null })
     user_birthdate: Date;
 
-    @Prop({ required: true, ref: 'Role', default: "User" })
+    @Prop({ required: true, ref: 'Role', default: USER_ROLE })
     user_role: string;
 }
 
