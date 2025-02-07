@@ -5,10 +5,10 @@ import { Document } from "mongoose";
     timestamps: true,
 })
 export class Like {
-    @Prop({ required: true })
+    @Prop({ required: true, ref: 'Plan' })
     planId: string;  // ID của kế hoạch được yêu thích
 
-    @Prop({ required: true })
+    @Prop({ required: true, ref: 'User' })
     userId: string;  // ID của người đã like
 
 }

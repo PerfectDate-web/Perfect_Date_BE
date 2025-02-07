@@ -1,10 +1,14 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 @Schema({
   timestamps: true,
 })
-export class Activity extends Document {
+export class Activity {
+
+  @Prop({ required: true, ref: 'Plan' } )
+  planId: Types.ObjectId;
+
   @Prop({ required: true })
   title: string;
 
@@ -17,8 +21,6 @@ export class Activity extends Document {
   @Prop()
   notes: string;
 
-  @Prop({ required: true })
-  order: number;
 }
 
 export const ActivitySchema = SchemaFactory.createForClass(Activity);
