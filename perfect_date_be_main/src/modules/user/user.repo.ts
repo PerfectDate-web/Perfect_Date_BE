@@ -28,4 +28,8 @@ export class UserRepository{
     async findById(id: string){
         return this.userModel.findById(id).lean();
     }
+
+    async findManyUserByIds(ids: string[]){
+        return this.userModel.find({_id: {$in: ids}}).lean();
+    }
 }

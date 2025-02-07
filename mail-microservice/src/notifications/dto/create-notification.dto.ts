@@ -1,6 +1,6 @@
 export class CreateNotificationDto {
 
-        userId: string;
+        userId: string[];
 
         message:string  
        

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { ResponseMessage } from 'src/decorators/response-message.decorator';
+import { Public } from 'src/decorators/public.decorator';
 
 
 @Controller('users')
@@ -19,4 +20,9 @@ export class UserController {
     return this.userService.findById(id);
   }
 
+  @Get('test/123')
+  @Public()
+  test() {
+    return this.userService.test();
+  }
 }

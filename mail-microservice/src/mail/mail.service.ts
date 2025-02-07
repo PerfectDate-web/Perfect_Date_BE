@@ -7,9 +7,9 @@ import { MailerService } from '@nestjs-modules/mailer';
 export class MailService {
   constructor(private readonly mailService: MailerService) { }
 
-  async sendMail(mail:string, context: object, template: string, subject: string) {
+  async sendMail(mail:string[], context: object, template: string, subject: string) {
     await this.mailService.sendMail({
-      to: mail, // list of receivers
+      to: mail.join(','), // list of receivers
       from: 'Name-APP', // override default from 
       subject: subject,
       template: template, // HTML body content 

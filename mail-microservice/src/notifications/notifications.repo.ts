@@ -5,23 +5,27 @@ import { Model } from "mongoose";
 import { CreateNotificationDto } from "./dto/create-notification.dto";
 
 @Injectable()
-export class NotificationRepository{
+export class NotificationRepository {
     constructor(
         @InjectModel(Notification.name) private readonly notificationModel: Model<Notification>
-    ) {}
+    ) { }
 
     async createNotification(dto: CreateNotificationDto) {
-        const newNotification = new this.notificationModel({
-           userId: dto.userId,
-           message: dto.message,
-           options: dto.options,
-           scheduledAt: dto.scheduledAt 
+        const newNotification = this.notificationModel.create({
+            userId: dto.userId,
+            message: dto.message,
+            options: dto.options,
+            scheduledAt: dto.scheduledAt
         });
 
-        return await newNotification.save();
+        return newNotification;
     }
 
-    async deleteNotification(id: string) {
-        
+    async getNotificationsById(id: string) {
+        return await this.notificationModel.findById(id)
+            .populate('userId', 'user_name user_email -_id')
+            .lean();
     }
+
+
 }

@@ -37,7 +37,6 @@ export class JwtAccessTokenGuard extends AuthGuard('jwt') {
 
 
 		const permissions = user?.role_permissions ?? [];
-		console.log("permissions"+JSON.stringify(permissions));
 		const isExist = permissions.find((permission) =>
 			(targetMethod === permission.permission_method) && (targetEndpoint === permission.permission_apiPath)
 		);

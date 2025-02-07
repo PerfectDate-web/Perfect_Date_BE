@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, Types } from "mongoose";
+import { User } from "src/modules/user/schemas/user.schema";
 
 @Schema({
     timestamps: true,
@@ -11,14 +12,11 @@ export class Plan  {
     @Prop()
     description: string;
 
-    @Prop({ type: mongoose.Types.ObjectId, required: true, ref: 'User' })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: User.name })
     createdBy: Types.ObjectId; // 🔥 Dùng Types.ObjectId
 
     @Prop({
-        type: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
-        default: function () {
-            return [this.createdBy]; // 🔥 Dùng this.createdBy vì nó là ObjectId
-        },
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }],
     })
     participants: Types.ObjectId[]; // 🔥 Dùng Types.ObjectId[]
 

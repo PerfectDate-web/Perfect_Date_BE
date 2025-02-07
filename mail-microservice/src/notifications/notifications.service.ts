@@ -4,6 +4,7 @@ import { UpdateNotificationDto } from './dto/update-notification.dto';
 import { NotificationRepository } from './notifications.repo';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
+import { delay } from 'rxjs';
 
 @Injectable()
 export class NotificationsService {
@@ -17,11 +18,11 @@ export class NotificationsService {
     }
 
     async scheduleNotification(createNotificationDto: CreateNotificationDto) {
-        console.log('Scheduled At:', createNotificationDto.scheduledAt);
-        console.log('Current Time:', new Date());
 
         // Kiểm tra nếu scheduledAt nhỏ hơn hiện tại thì đặt lại thời gian hợp lý
-        const scheduledTime = new Date(createNotificationDto.scheduledAt).getTime();
+        const scheduledDate = new Date(createNotificationDto.scheduledAt);
+        scheduledDate.setHours(20, 0, 0, 0);
+        const scheduledTime = scheduledDate.getTime();
         const currentTime = Date.now();
         const timeDelay = scheduledTime - currentTime;
 
@@ -31,15 +32,12 @@ export class NotificationsService {
             console.error('⚠️ scheduledAt phải lớn hơn thời gian hiện tại!');
             throw new Error('scheduledAt phải là một thời gian trong tương lai.');
         }
-        // Lưu vào database
-        const notification = await this.createNotification(createNotificationDto);
 
         // Thêm vào queue để gửi đúng thời gian
-        await this.notificationQueue.add(notification, {
-            delay: timeDelay, // Tính thời gian chờ
+        await this.notificationQueue.add(createNotificationDto, {
+            delay: timeDelay, // Thời gian chờ trước khi gửi
             attempts: 3, // Nếu lỗi thì thử lại tối đa 3 lần
         });
 
-        return notification;
     }
 }

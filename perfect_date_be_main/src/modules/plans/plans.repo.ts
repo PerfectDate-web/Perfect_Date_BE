@@ -47,7 +47,7 @@ export class PlansRepository {
         return plan;
     }
 
-    async getPlanById(planId: string, userId: string) {
+    async getPlanByIdAndUserId(planId: string, userId: string) {
         const plan = await this.planModel.findById(planId).lean();
         if (!plan) {
             throw new CustomException(ErrorCode.NOT_FOUND);
@@ -58,12 +58,18 @@ export class PlansRepository {
         return plan;
     }
 
-    async getParticipantInPlans(userId: string,inviteCode:string) {
+    async getParticipantInPlans(userId: string, inviteCode: string) {
         const plan = await this.planModel.findOne({
             inviteCode,
             participants: userId
         }).lean();
 
         return plan;
+    }
+
+    async getPlanById(planId: string) {
+        return this.planModel.findById(planId)
+            .populate('participants',"user_name user_email -_id")
+            // .lean();
     }
 }

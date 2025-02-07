@@ -4,6 +4,9 @@ import { PlansController } from './plans.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Plan, PlanSchema } from './schemas/plan.schemas';
 import { PlansRepository } from './plans.repo';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { User, UserSchema } from '../user/schemas/user.schema';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -12,9 +15,11 @@ import { PlansRepository } from './plans.repo';
         name: Plan.name,
         schema: PlanSchema,
       },
-    ])
+    ]),
+    // NotificationsModule,
   ],
   controllers: [PlansController],
-  providers: [PlansService,PlansRepository],
+  providers: [PlansService, PlansRepository],
+  exports:[PlansService,PlansRepository]
 })
-export class PlansModule {}
+export class PlansModule { }
