@@ -1,3 +1,4 @@
+import { Optional } from "@nestjs/common";
 import { IsNotEmpty } from "class-validator";
 
 export class JoinPlanDto {
@@ -5,6 +6,6 @@ export class JoinPlanDto {
     @IsNotEmpty()
     inviteCode: string;
 
-    @IsNotEmpty()
+    @Optional()
     userId: string;
 }

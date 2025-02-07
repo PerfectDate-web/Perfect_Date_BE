@@ -19,14 +19,21 @@ export const INIT_PERMISSIONS = [
     {
         "_id": "648ad613dafdb9754f40b89a",
         "permission_name": "Create Role",
-        "permission_apiPath": "/api/v1/roles",
+        "permission_apiPath": "/api/v1/role",
         "permission_method": "POST",
         "permission_module": "ROLES",
     },
     {
         "_id": "648ad640dafdb9754f40b8ab",
-        "permission_name": "Update Role Permissions",
-        "permission_apiPath": "/api/v1/roles/:roleId/permissions",
+        "permission_name": "Enable Permissions",
+        "permission_apiPath": "/api/v1/role/:roleId/enable-permissions",
+        "permission_method": "PATCH",
+        "permission_module": "ROLES",
+    },
+    {
+        "_id": "648ad640dafdb9754f40b7ac",
+        "permission_name": "Disable Permissions",
+        "permission_apiPath": "/api/v1/role/:roleId/disable-permissions",
         "permission_method": "PATCH",
         "permission_module": "ROLES",
     },
@@ -90,7 +97,7 @@ export const INIT_PERMISSIONS = [
         "_id": "648ad720dafdb9754f40b8bb",
         "permission_name": "Create Plan",
         "permission_apiPath": "/api/v1/plans",
-        "permission_method": "POST",
+        "permission_method": "PATCH",
         "permission_module": "PLANS",
     },
     {

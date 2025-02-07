@@ -1,4 +1,4 @@
-import { IsMongoId, IsNotEmpty } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreatePlanDto {
 
@@ -8,8 +8,7 @@ export class CreatePlanDto {
     @IsNotEmpty()
     description: string;
 
-    @IsNotEmpty()
-    @IsMongoId()
+    @IsOptional()
     createdBy: string;
 
     @IsNotEmpty()

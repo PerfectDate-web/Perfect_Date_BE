@@ -12,7 +12,11 @@ export class RoleService {
     return await this.roleRepository.createRole(createRoleDto);
   }
 
-  async updatePermissions(roleId: string, permissions: string[]) {
-    return await this.roleRepository.updatePermissions(roleId, permissions);
+  async enablePermission(roleId: string, permissions: string[]) {
+    return await this.roleRepository.enablePermission(roleId, permissions);
+  }
+
+  async disablePermission(roleId: string, permissions: string[]) {
+    return await this.roleRepository.disablePermission(roleId, permissions);
   }
 }

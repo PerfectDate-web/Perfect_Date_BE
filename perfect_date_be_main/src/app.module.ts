@@ -13,6 +13,7 @@ import { DatabasesModule } from './modules/databases/databases.module';
 import { PlansModule } from './modules/plans/plans.module';
 import { ActivitiesModule } from './modules/activities/activities.module';
 import { LikesModule } from './modules/likes/likes.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 
 @Module({
@@ -31,7 +32,7 @@ import { LikesModule } from './modules/likes/likes.module';
     AuthModule, 
     RoleModule, 
     PermissionsModule, 
-    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, LikesModule
+    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, LikesModule, NotificationsModule
   ],
   controllers: [AppController],
   providers: [AppService],

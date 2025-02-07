@@ -14,9 +14,15 @@ export class RoleController {
     return this.roleService.create(createRoleDto);
   }
 
-  @Patch(':roleId/permissions')
-  @ResponseMessage("Permissions updated successfully")
-  updatePermissions(@Param('roleId') roleId: string, @Body("permissions") permissions: string[]) {
-    return this.roleService.updatePermissions(roleId, permissions);
+  @Patch(':roleId/enable-permissions')
+  @ResponseMessage("Enabled permissions successfully")
+  enablePermissions(@Param('roleId') roleId: string, @Body("permissions") permissions: string[]) {
+    return this.roleService.enablePermission(roleId, permissions);
+  }
+
+  @Patch(':roleId/disable-permissions')
+  @ResponseMessage("Disabled permissions successfully")
+  disablePermissions(@Param('roleId') roleId: string, @Body("permissions") permissions: string[]) {
+    return this.roleService.disablePermission(roleId, permissions);
   }
 }

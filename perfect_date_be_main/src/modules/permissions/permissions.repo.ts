@@ -10,6 +10,10 @@ export class PermissionRepository {
     ) { }
 
     async createPermission(permission: Permission) {
+        const isExist = await this.permissionModel.findOne({ permission_method: permission.permission_method, permission_apiPath: permission.permission_apiPath });
+        if (isExist) {
+            return null;
+        }
         return this.permissionModel.create(permission);
     }
 

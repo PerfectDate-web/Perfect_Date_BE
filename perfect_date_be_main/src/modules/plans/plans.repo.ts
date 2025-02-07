@@ -5,6 +5,8 @@ import mongoose, { Model, Types } from "mongoose";
 import { CreatePlanDto } from "./dto/create-plan.dto";
 import { randomBytes } from "crypto";
 import { JoinPlanDto } from "./dto/join-plan.dto";
+import { CustomException } from "src/exception-handle/custom-exception";
+import { ErrorCode } from "src/enums/error-code.enum";
 
 @Injectable()
 export class PlansRepository {
@@ -32,7 +34,7 @@ export class PlansRepository {
         const plan = await this.planModel.findOne({ inviteCode: dto.inviteCode });
 
         if (!plan) {
-            throw new Error('Mã mời không hợp lệ');
+            throw new CustomException(ErrorCode.NOT_FOUND);
         }
 
         const userObjectId = new Types.ObjectId(dto.userId);
@@ -41,6 +43,26 @@ export class PlansRepository {
             plan.participants.push(userObjectId);
             await plan.save();
         }
+
+        return plan;
+    }
+
+    async getPlanById(planId: string, userId: string) {
+        const plan = await this.planModel.findById(planId).lean();
+        if (!plan) {
+            throw new CustomException(ErrorCode.NOT_FOUND);
+        }
+        if (!plan.participants.includes(new Types.ObjectId(userId)) || !plan.isPublic) {
+            throw new CustomException(ErrorCode.YOU_ARE_NOT_PARTICIPANT);
+        }
+        return plan;
+    }
+
+    async getParticipantInPlans(userId: string,inviteCode:string) {
+        const plan = await this.planModel.findOne({
+            inviteCode,
+            participants: userId
+        }).lean();
 
         return plan;
     }

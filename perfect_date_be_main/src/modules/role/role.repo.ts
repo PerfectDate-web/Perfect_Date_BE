@@ -19,23 +19,24 @@ export class RoleRepository {
             role_permissions: dto.role_permissions,
         });
     }
-
-    async getRoles() {
-        return this.roleModel.find().lean();
-    }
-
+    
     async findOneByQuery(query: any) {
         return this.roleModel.findOne(query)
             .populate('role_permissions', 'permission_apiPath permission_method -_id')
             .lean();
     }
 
-    async updatePermissions(roleId: string, permissions: string[]) {
+    async enablePermission(roleId: string, permissions: string[]) {
         const role = await this.roleModel.findByIdAndUpdate(roleId, {
-            role_permissions: permissions.map(permission => new mongoose.Types.ObjectId(permission))
+            $addToSet: { role_permissions: { $each: permissions } }
         }, { new: true });
         return role;
     }
 
-    
+    async disablePermission(roleId: string, permissions: string[]) {
+        const role = await this.roleModel.findByIdAndUpdate(roleId, {
+            $pull: { role_permissions: { $in: permissions } }
+        }, { new: true });
+        return role;
+    }
 }

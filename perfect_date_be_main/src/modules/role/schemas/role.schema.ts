@@ -20,6 +20,7 @@ export class Role {
 
     @Prop({
         required: true,
+        default: true,
     })
     role_isActive:boolean;
 
