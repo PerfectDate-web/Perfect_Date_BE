@@ -12,7 +12,7 @@ export class ActivitiesRepository {
     ) { }
 
     async createActivity(dto: CreateActivityDto) {
-        return this.activitiesModel.create({
+        return await this.activitiesModel.create({
             planId: dto.planId,
             title: dto.title,
             location: dto.location,
@@ -22,8 +22,10 @@ export class ActivitiesRepository {
     }
 
     async getActivitiesByPlan(planId:string) {
-        return this.activitiesModel.find({planId})
+        return await this.activitiesModel.find({planId})
         .sort({time: 1})
         .lean();
     }
+
+    
 }

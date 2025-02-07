@@ -6,7 +6,7 @@ import { User } from '../user/schemas/user.schema';
 import { Permission } from '../permissions/schemas/permission.schema';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'process';
-import { ADMIN_ROLE, INIT_PERMISSIONS, USER_ROLE } from './sample';
+import { ADMIN_ROLE, INIT_PERMISSIONS, USER_PERMISSION_IDS, USER_ROLE } from './sample';
 
 @Injectable()
 export class DatabasesService implements OnModuleInit {
@@ -41,7 +41,7 @@ export class DatabasesService implements OnModuleInit {
                         role_name: USER_ROLE,
                         role_description: "Người dùng hệ thống",
                         role_isActive: true,
-                        role_permissions: [],
+                        role_permissions: USER_PERMISSION_IDS,
                     }
                 ])
             }

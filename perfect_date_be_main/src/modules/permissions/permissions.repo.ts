@@ -14,6 +14,25 @@ export class PermissionRepository {
     }
 
     async getPermissions() {
-        return this.permissionModel.find().lean();
+        return this.permissionModel.aggregate([
+            {
+                $group: {
+                    _id: "$permission_module",
+                    permissions: {
+                        $push: {
+                            permission_name: "$permission_name",
+                            permission_apiPath: "$permission_apiPath",
+                            permission_method: "$permission_method",
+                            createdAt: "$createdAt",
+                            updatedAt: "$updatedAt"
+                        }
+                    }
+                }
+            },
+            {
+                $sort: { _id: 1 } // Sắp xếp theo module name
+            }
+        ]);
     }
+
 }
