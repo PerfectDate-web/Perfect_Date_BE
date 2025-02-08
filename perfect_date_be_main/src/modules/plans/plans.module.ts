@@ -16,7 +16,7 @@ import { UserModule } from '../user/user.module';
         schema: PlanSchema,
       },
     ]),
-    // NotificationsModule,
+    NotificationsModule,
   ],
   controllers: [PlansController],
   providers: [PlansService, PlansRepository],

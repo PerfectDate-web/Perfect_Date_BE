@@ -7,6 +7,8 @@ import { NotificationRepository } from './notifications.repo';
 import { BullModule } from '@nestjs/bull';
 import { NotificationProcessor } from './notification.processor';
 import { MailModule } from 'src/mail/mail.module';
+import { User, UserSchema } from 'src/users/schemas/users.schema';
+import { Plan, PlanSchema } from 'src/plans/schemas/plans.schema';
 
 @Module({
   imports: [
@@ -15,13 +17,24 @@ import { MailModule } from 'src/mail/mail.module';
       {
         name: Notification.name,
         schema: NotificationSchema,
-      },  
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
+        collection: 'users' 
+      },
+      {
+        name: Plan.name,
+        schema: PlanSchema,
+        collection: 'plans' 
+      },
+
     ]),
     BullModule.registerQueue({
       name: 'notification-queue',
     }),
   ],
   controllers: [NotificationsController],
-  providers: [NotificationsService,NotificationRepository, NotificationProcessor],
+  providers: [NotificationsService, NotificationRepository, NotificationProcessor],
 })
-export class NotificationsModule {}
+export class NotificationsModule { }

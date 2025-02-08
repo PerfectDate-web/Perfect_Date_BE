@@ -5,6 +5,15 @@ import mongoose, { Types } from "mongoose";
     timestamps: true,
 })
 export class Notification {
+
+    @Prop({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Plan',
+        required: true,
+        unique: true,
+    })
+    planId: Types.ObjectId;
+
     @Prop({
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         required: true,

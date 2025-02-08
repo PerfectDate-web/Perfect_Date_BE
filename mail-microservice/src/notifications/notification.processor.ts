@@ -13,33 +13,43 @@ export class NotificationProcessor {
     ) { }
     @Process()
     async handleNotification(job: Job) {
-        const { userId, message, scheduledAt, options } = job.data;
+        const { userId, message, scheduledAt, options, _id } = job.data;
         console.log(`Sending notification to user ${userId}: ${message} at ${scheduledAt}`);
-        // Lưu vào database
-        const newNotification = await this.notificationRepository.createNotification({
-            userId,
-            message,
-            scheduledAt,
-            options
-        });
-
-        // Ở đây bạn có thể gửi email hoặc push notification
         try {
-            await this.mailService.sendMail(options.userEmails, {
-                planName: options.planName,
-                startDate: options.startDate,
-                userNames: options.userNames,
-                planId: options.planId
+            const notification = await this.notificationRepository.getNotificationById(_id) as any;
+            console.log('notification', notification);
+
+            console.log('Sending email to: ', notification?.userId.map(user=>user.user_email), {
+                planName: notification?.planId.title || '',
+                startDate: notification?.planId.startDate || '',
+                userNames: notification?.userId.map(user=>user.user_name) || [],
+            });
+            await this.mailService.sendMail(notification?.userId.map(user=>user.user_email), {
+                planName: notification?.planId.title || '',
+                startDate: notification?.planId.startDate || '',
+                userNames: notification?.userId.map(user=>user.user_name) || [],
             }, 'notification-template', 'Notification');
+
         } catch (error) {
-            console.error('Failed to send email:', error);
+            console.error('Failed to save notification: ', error);
         }
+    
     }
 }
-// options: {
-//     tripId: trip._id,
-//     tripName: dto.name,
-//     userName: user?.user_name || '',
-//     startDate: dto.start_date,
-//     endDate: dto.end_date
-// },
+// notification {
+//     _id: new ObjectId('67a6d83b6fee5c997e865358'),
+//     planId: { title: 'Mtri vs Qnhu' },
+//     userId: [
+//       {
+//         user_email: 'tranminhtri10213@gmail.com',
+//         user_name: 'Trần Minh Trí'
+//       },
+//       { user_email: '2251150039@ut.edu.vn', user_name: 'Trần Minh Trí' }
+//     ],
+//     message: 'Test',
+//     scheduledAt: 2025-02-08T00:00:00.000Z,
+//     options: { planId: '123', planName: '123', startDate: '2025-02-09' },
+//     createdAt: 2025-02-08T04:06:19.320Z,
+//     updatedAt: 2025-02-08T04:06:19.320Z,
+//     __v: 0
+//   }

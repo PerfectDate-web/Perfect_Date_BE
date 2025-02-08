@@ -13,5 +13,8 @@ export class NotificationsController {
     return this.notificationsService.scheduleNotification(data);
   }
 
-  
+  @EventPattern('add_user_to_notification')
+  async handleAddUserToNotification(@Payload() data: { planId: string, userId: string }) {
+    return this.notificationsService.addUserIdToNotification(data.planId, data.userId);
+  }
 }

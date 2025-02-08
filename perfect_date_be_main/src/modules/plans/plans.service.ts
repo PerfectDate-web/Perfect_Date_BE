@@ -12,7 +12,7 @@ import { UserRepository } from '../user/user.repo';
 export class PlansService {
   constructor(
     private plansRepository: PlansRepository,
-    // private notificationService: NotificationsService,
+    private notificationService: NotificationsService,
   ) { }
 
   async create(createPlanDto: CreatePlanDto) {
@@ -44,6 +44,16 @@ export class PlansService {
     if (isExist) {
       throw new CustomException(ErrorCode.YOU_ARE_NOT_PARTICIPANT);
     }
-    return this.plansRepository.joinPlan(dto);
+    const plan = await this.plansRepository.joinPlan(dto);
+    if (!plan) {
+      throw new CustomException(ErrorCode.JOIN_PLAN_FAILED);
+    }
+
+    this.notificationService.addUserIdToNotification({
+      planId: plan._id.toString(),
+      userId: dto.userId,
+    });
+    
+    return plan;
   }
 }

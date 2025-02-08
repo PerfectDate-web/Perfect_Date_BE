@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
 import { NotificationRepository } from './notifications.repo';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
@@ -26,18 +25,27 @@ export class NotificationsService {
         const currentTime = Date.now();
         const timeDelay = scheduledTime - currentTime;
 
-        console.log('timeDelay:', timeDelay); // Kiểm tra giá trị
 
         if (timeDelay <= 0) {
             console.error('⚠️ scheduledAt phải lớn hơn thời gian hiện tại!');
             throw new Error('scheduledAt phải là một thời gian trong tương lai.');
         }
-
+        // Lưu vào database
+        const newNotification = await this.notificationRepository.createNotification({
+            planId: createNotificationDto.planId,
+            userId: createNotificationDto.userId,
+            message: createNotificationDto.message,
+            scheduledAt: createNotificationDto.scheduledAt,
+            options: createNotificationDto.options,
+        });
         // Thêm vào queue để gửi đúng thời gian
-        await this.notificationQueue.add(createNotificationDto, {
+        await this.notificationQueue.add(newNotification, {
             delay: timeDelay, // Thời gian chờ trước khi gửi
             attempts: 3, // Nếu lỗi thì thử lại tối đa 3 lần
         });
+    }
 
+    async addUserIdToNotification(planId: string, userId: string) {
+        return this.notificationRepository.addUserIdToNotification(planId, userId);
     }
 }

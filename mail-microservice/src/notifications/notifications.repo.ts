@@ -12,6 +12,7 @@ export class NotificationRepository {
 
     async createNotification(dto: CreateNotificationDto) {
         const newNotification = this.notificationModel.create({
+            planId: dto.planId,
             userId: dto.userId,
             message: dto.message,
             options: dto.options,
@@ -21,11 +22,18 @@ export class NotificationRepository {
         return newNotification;
     }
 
-    async getNotificationsById(id: string) {
+    async getNotificationById(id: string) {
         return await this.notificationModel.findById(id)
-            .populate('userId', 'user_name user_email -_id')
+            .populate('userId', 'user_email user_name -_id')
+            .populate('planId', 'title startDate -_id')
             .lean();
     }
 
+    async addUserIdToNotification(planId: string, userId: string) {
+        return await this.notificationModel.updateOne(
+            { planId },
+            { $addToSet: { userId } } // Chỉ thêm nếu chưa có
+        );;
+    }
 
 }

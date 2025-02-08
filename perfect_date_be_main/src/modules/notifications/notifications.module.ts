@@ -7,7 +7,7 @@ import { PlansModule } from '../plans/plans.module';
 
 @Module({
   imports: [
-    PlansModule,
+    // PlansModule,
     ClientsModule.registerAsync([
       {
         name: 'NOTIFICATION_SERVICE',
