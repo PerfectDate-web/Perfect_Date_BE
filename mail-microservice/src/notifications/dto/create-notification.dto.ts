@@ -1,10 +1,9 @@
 export class CreateNotificationDto {
-    planId: string;
 
     userId: string[];
 
-    message: string
-
+    type: string;
+    
     scheduledAt: Date;
 
     options: Object

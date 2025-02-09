@@ -8,7 +8,7 @@ import { BullModule } from '@nestjs/bull';
 import { NotificationProcessor } from './notification.processor';
 import { MailModule } from 'src/mail/mail.module';
 import { User, UserSchema } from 'src/users/schemas/users.schema';
-import { Plan, PlanSchema } from 'src/plans/schemas/plans.schema';
+
 
 @Module({
   imports: [
@@ -23,12 +23,6 @@ import { Plan, PlanSchema } from 'src/plans/schemas/plans.schema';
         schema: UserSchema,
         collection: 'users' 
       },
-      {
-        name: Plan.name,
-        schema: PlanSchema,
-        collection: 'plans' 
-      },
-
     ]),
     BullModule.registerQueue({
       name: 'notification-queue',

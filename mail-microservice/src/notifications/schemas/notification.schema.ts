@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Types } from "mongoose";
+import { NotificationType } from "src/enums/notification-type";
 
 @Schema({
     timestamps: true,
@@ -7,25 +8,16 @@ import mongoose, { Types } from "mongoose";
 export class Notification {
 
     @Prop({
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Plan',
-        required: true,
-        unique: true,
-    })
-    planId: Types.ObjectId;
-
-    @Prop({
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         required: true,
     })
     userId: Types.ObjectId[];
 
-    @Prop(
-        {
-            required: true,
-        }
-    )
-    message: string
+    @Prop({
+        required: true,
+        enum: NotificationType,
+    })
+    type: string;
 
     @Prop(
         {

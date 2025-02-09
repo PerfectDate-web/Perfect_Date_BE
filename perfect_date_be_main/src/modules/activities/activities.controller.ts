@@ -3,6 +3,8 @@ import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { ResponseMessage } from 'src/decorators/response-message.decorator';
+import { User } from 'src/decorators/user-infor.decorator';
+import { UserInterface } from '../user/dto/response/user.interface';
 
 @Controller('activities')
 export class ActivitiesController {
@@ -10,11 +12,12 @@ export class ActivitiesController {
 
   @Post()
   @ResponseMessage("Activity created successfully")
-  create(@Body() createActivityDto: CreateActivityDto) {
-    return this.activitiesService.create(createActivityDto);
+  create(@Body() createActivityDto: CreateActivityDto, @User() user: UserInterface) {
+    return this.activitiesService.create(createActivityDto,user._id);
   }
 
-  @Get(':planId')
+  @Get('/plan/:planId')
+  @ResponseMessage("Activities retrieved successfully")
   getActivitiesByPlan(@Param('planId') planId: string) {
     return this.activitiesService.getActivitiesByPlan(planId);
   }

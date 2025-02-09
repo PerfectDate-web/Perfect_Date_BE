@@ -22,6 +22,7 @@ export class AuthController {
   @Public()
   @Get("google/callback")
   @UseGuards(GoogleAuthGuard)
+  @ResponseMessage('Login successfully')
   async googleCallback(@User() user: UserInterface, @Res({ passthrough: true }) res: Response) {
     return this.authService.login(user, res);
   }

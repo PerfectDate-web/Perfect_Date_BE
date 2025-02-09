@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose, { Types } from "mongoose";
 import { UserSex } from "src/enums/user-sex.enum";
 import { USER_ROLE } from "src/modules/databases/sample";
 
@@ -21,6 +22,18 @@ export class User {
 
     @Prop({ default: false })
     user_verified: boolean;
+
+    @Prop({ 
+        default: null ,
+        type:mongoose.Schema.Types.ObjectId,
+        ref: User.name
+    })
+    your_partner: Types.ObjectId
+
+    @Prop({
+        required: true,
+    })
+    user_code: string;
 
     @Prop({ enum: UserSex, default: null })
     user_sex: string;

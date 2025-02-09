@@ -12,9 +12,8 @@ export class NotificationRepository {
 
     async createNotification(dto: CreateNotificationDto) {
         const newNotification = this.notificationModel.create({
-            planId: dto.planId,
             userId: dto.userId,
-            message: dto.message,
+            type: dto.type,
             options: dto.options,
             scheduledAt: dto.scheduledAt
         });

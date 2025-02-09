@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from "mongoose";
+import { Plan } from "src/modules/plans/schemas/plan.schemas";
 
 @Schema({
   timestamps: true,
 })
 export class Activity {
 
-  @Prop({ required: true, ref: 'Plan' } )
+  @Prop({ required: true, ref: Plan.name } )
   planId: Types.ObjectId;
 
   @Prop({ required: true })

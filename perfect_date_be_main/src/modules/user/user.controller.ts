@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { ResponseMessage } from 'src/decorators/response-message.decorator';
-import { Public } from 'src/decorators/public.decorator';
+import { User } from 'src/decorators/user-infor.decorator';
+import { UserInterface } from './dto/response/user.interface';
 
 
 @Controller('users')
@@ -20,9 +21,18 @@ export class UserController {
     return this.userService.findById(id);
   }
 
-  @Get('test/123')
-  @Public()
-  test() {
-    return this.userService.test();
+  @Patch("add-partner")
+  @ResponseMessage('Partner added')
+  async addPartner(
+    @User() user: UserInterface,
+    @Body("partnerCode") partnerCode: string
+  ) {
+    return this.userService.addPartner(user._id, partnerCode);
+  }
+
+  @Get("partner")
+  @ResponseMessage('Partner found')
+  async getPartner(@User() user: UserInterface) {
+    return this.userService.getPartner(user._id);
   }
 }

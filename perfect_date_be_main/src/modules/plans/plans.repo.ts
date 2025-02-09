@@ -1,12 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Plan } from "./schemas/plan.schemas";
-import mongoose, { Model, Types } from "mongoose";
+import { Model, Types } from "mongoose";
 import { CreatePlanDto } from "./dto/create-plan.dto";
-import { randomBytes } from "crypto";
-import { JoinPlanDto } from "./dto/join-plan.dto";
 import { CustomException } from "src/exception-handle/custom-exception";
 import { ErrorCode } from "src/enums/error-code.enum";
+;
 
 @Injectable()
 export class PlansRepository {
@@ -16,60 +15,61 @@ export class PlansRepository {
 
     async createPlan(dto: CreatePlanDto) {
 
-        return await this.planModel.create({
+        const plan = await this.planModel.create({
             title: dto.title,
             description: dto.description,
             createdBy: dto.createdBy,
-            participants: [dto.createdBy],
+            partnerId: dto.partnerId,
             startDate: dto.startDate,
-            inviteCode: this.generateInviteCode(),
         });
+
+        return plan
     }
 
-    private generateInviteCode(): string {
-        return randomBytes(3).toString('hex').toUpperCase(); // VD: "A1B2C3"
+    async getPlansByUser(userId: string) {
+        return this.planModel.find({
+            $or: [{ createdBy: userId }, { partnerId: userId }]
+        }).populate("createdBy", "user_name user_email -_id")
+            .populate("partnerId", "user_name user_email -_id")
+            .lean();
     }
 
-    async joinPlan(dto: JoinPlanDto) {
-        const plan = await this.planModel.findOne({ inviteCode: dto.inviteCode });
+    async getPlanById(planId: string, userId: string) {
+        const plan = await this.planModel.findById(planId)
+            .populate("createdBy", "user_name user_email -_id")
+            .populate("partnerId", "user_name user_email -_id")
+            .lean();
 
         if (!plan) {
             throw new CustomException(ErrorCode.NOT_FOUND);
         }
 
-        const userObjectId = new Types.ObjectId(dto.userId);
+        const isAuthorized = plan.createdBy?._id.toString() === userId ||
+            plan.partnerId?._id.toString() === userId ||
+            plan.isPublic;
 
-        if (!plan.participants.includes(userObjectId)) {
-            plan.participants.push(userObjectId);
-            await plan.save();
-        }
-
-        return plan;
-    }
-
-    async getPlanByIdAndUserId(planId: string, userId: string) {
-        const plan = await this.planModel.findById(planId).lean();
-        if (!plan) {
-            throw new CustomException(ErrorCode.NOT_FOUND);
-        }
-        if (!plan.participants.includes(new Types.ObjectId(userId)) || !plan.isPublic) {
+        if (!isAuthorized) {
             throw new CustomException(ErrorCode.YOU_ARE_NOT_PARTICIPANT);
         }
+
         return plan;
     }
 
-    async getParticipantInPlans(userId: string, inviteCode: string) {
+    async checkIsCreatorOrPartner(planId: string, userId: string) {
         const plan = await this.planModel.findOne({
-            inviteCode,
-            participants: userId
-        }).lean();
-
-        return plan;
+            _id: planId,
+            $or: [{ createdBy: userId }, { partnerId: userId }]
+        })
+        return plan ? true : false
     }
 
-    async getPlanById(planId: string) {
-        return this.planModel.findById(planId)
-            .populate('participants',"user_name user_email -_id")
-            // .lean();
+    async checkIsCreatorOrPartnerOrPublic(planId: string, userId: string) {
+        const plan = await this.planModel.findOne({
+            _id: planId,
+            $or: [{ createdBy: userId }, { partnerId: userId }, { isPublic: true }]
+        })
+        return plan ? true : false
     }
+
+
 }

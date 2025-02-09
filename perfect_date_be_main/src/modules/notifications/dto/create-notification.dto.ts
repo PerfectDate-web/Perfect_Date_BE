@@ -5,15 +5,12 @@ export class CreateNotificationDto {
     @IsNotEmpty()
     userId: string[];
 
-    @IsNotEmpty()
-    planId: string;
-
     @IsString()
     @IsNotEmpty()
-    message:string  
+    type:string  
    
     @IsNotEmpty()
-    scheduledAt: string;
+    scheduledAt: Date;
 
     @IsOptional()
     options: Object

@@ -15,13 +15,8 @@ export class Plan  {
     @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: User.name })
     createdBy: Types.ObjectId; // 🔥 Dùng Types.ObjectId
 
-    @Prop({
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }],
-    })
-    participants: Types.ObjectId[]; // 🔥 Dùng Types.ObjectId[]
-
-    @Prop({ unique: true, required: true })
-    inviteCode: string;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: User.name })
+    partnerId: Types.ObjectId; // 🔥 Dùng Types.ObjectId
 
     @Prop({ default: false })
     isPublic: boolean;

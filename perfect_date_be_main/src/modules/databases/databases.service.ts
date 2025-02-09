@@ -50,12 +50,14 @@ export class DatabasesService implements OnModuleInit {
                     {
                         user_email: "admin@gmail.com",
                         user_name: "I'm admin",
+                        user_code: '123dsafad',
                         user_password: '200804',
                         user_role: ADMIN_ROLE
                     },
                     {
                         user_email: "example@example.com",
                         user_name: "I'm example user",
+                        user_code: '123456fad',
                         user_password: '',
                         user_role: USER_ROLE
                     },

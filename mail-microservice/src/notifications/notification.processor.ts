@@ -20,15 +20,15 @@ export class NotificationProcessor {
             console.log('notification', notification);
 
             console.log('Sending email to: ', notification?.userId.map(user=>user.user_email), {
-                planName: notification?.planId.title || '',
-                startDate: notification?.planId.startDate || '',
+                planName: options.title || '',
+                startDate: options.startDate || '',
                 userNames: notification?.userId.map(user=>user.user_name) || [],
             });
-            await this.mailService.sendMail(notification?.userId.map(user=>user.user_email), {
-                planName: notification?.planId.title || '',
-                startDate: notification?.planId.startDate || '',
-                userNames: notification?.userId.map(user=>user.user_name) || [],
-            }, 'notification-template', 'Notification');
+            // await this.mailService.sendMail(notification?.userId.map(user=>user.user_email), {
+            //     planName: notification?.planId.title || '',
+            //     startDate: notification?.planId.startDate || '',
+            //     userNames: notification?.userId.map(user=>user.user_name) || [],
+            // }, 'notification-template', 'Notification');
 
         } catch (error) {
             console.error('Failed to save notification: ', error);

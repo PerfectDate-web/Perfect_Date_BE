@@ -11,6 +11,9 @@ export class CreatePlanDto {
     @IsOptional()
     createdBy: string;
 
+    @IsOptional()
+    partnerId: string;
+
     @IsNotEmpty()
     startDate: string;
 }

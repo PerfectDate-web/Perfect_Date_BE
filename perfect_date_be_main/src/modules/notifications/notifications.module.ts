@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
-import { NotificationsController } from './notifications.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PlansModule } from '../plans/plans.module';
 
 @Module({
   imports: [
-    // PlansModule,
     ClientsModule.registerAsync([
       {
         name: 'NOTIFICATION_SERVICE',
@@ -26,7 +23,6 @@ import { PlansModule } from '../plans/plans.module';
       },
     ]),
   ],
-  controllers: [NotificationsController],
   providers: [NotificationsService],
   exports: [NotificationsService],
 })

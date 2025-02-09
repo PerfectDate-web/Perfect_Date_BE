@@ -17,6 +17,7 @@ import { UserModule } from '../user/user.module';
       },
     ]),
     NotificationsModule,
+    UserModule
   ],
   controllers: [PlansController],
   providers: [PlansService, PlansRepository],

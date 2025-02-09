@@ -27,39 +27,37 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
-  # Elasticsearch
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+  backend:
+    build:
+      context: ./perfect_date_be_main
+      dockerfile: Dockerfile
+    restart: unless-stopped
     environment:
-      - xpack.security.enabled=false # Disable security for development
-      - discovery.type=single-node   # Single node mode
+      - MONGO_URI=mongodb://mongo:27017/perfect_date
+      - REDIS_URI=redis://redis:6379
+      - RABBITMQ_URI=amqp://root:1234@rabbitmq:5672
+    ports:
+      - "8080:8080"
     volumes:
-      - es_data:/usr/share/elasticsearch/data
-    networks:
-      - es-net
-    ports:
-      - "9200:9200"
-
-  # Kibana
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.16.0
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200 # Link to the elasticsearch service
-    networks:
-      - es-net
+    - ./perfect_date_be_main:/app
     depends_on:
-      - elasticsearch
-    ports:
-      - "5601:5601"
+      - mongo
+      - redis
+      - rabbitmq
 
-
-# Networks
-networks:
-  es-net:
-    driver: bridge
+  mail-microservice:
+    build:
+      context: ./mail-microservice
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+    - RABBITMQ_URI=amqp://root:1234@rabbitmq:5672
+    volumes:
+    - ./mail-microservice:/app
+    depends_on:
+      - rabbitmq
 
 # Volumes
 volumes:
   redis_data:
   rabbitmq_data:
-  es_data:

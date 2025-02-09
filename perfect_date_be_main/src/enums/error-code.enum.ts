@@ -14,10 +14,9 @@ export class ErrorCode {
     static readonly PASSWORD_IS_NOT_EMPTY = new ErrorCode(1410, 'Password not empty', HttpStatus.BAD_REQUEST)
     static readonly PERMISSION_IS_EXISTED = new ErrorCode(1411, 'Permission is existed', HttpStatus.BAD_REQUEST)
     static readonly YOU_ARE_NOT_PARTICIPANT = new ErrorCode(1412, 'You are not participant', HttpStatus.BAD_REQUEST)
-    static readonly YOU_DID_PARTICIPATED = new ErrorCode(1413, 'You did participated', HttpStatus.BAD_REQUEST)
     static readonly CREATE_PLAN_FAILED = new ErrorCode(1414, 'Create plan failed', HttpStatus.BAD_REQUEST)
-    static readonly JOIN_PLAN_FAILED = new ErrorCode(1415, 'Join plan failed', HttpStatus.BAD_REQUEST)
-    private constructor(public readonly code: number, public readonly message: string, public readonly status: HttpStatus) { }
+    static readonly ALREADY_PARTNER = new ErrorCode(1416, 'Already partner', HttpStatus.BAD_REQUEST)
+     constructor(public readonly code: number, public readonly message: string, public readonly status: HttpStatus) { }
 
     toJSON() {
         return {

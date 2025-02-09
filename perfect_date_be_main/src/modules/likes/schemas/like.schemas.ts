@@ -14,3 +14,4 @@ export class Like {
 }
 
 export const LikeSchema = SchemaFactory.createForClass(Like);
+LikeSchema.index({ planId: 1, userId: 1 }, { unique: true });

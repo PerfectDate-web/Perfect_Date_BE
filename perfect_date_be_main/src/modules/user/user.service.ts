@@ -16,7 +16,12 @@ export class UserService {
   async findById(id: string) {
     return this.userRepository.findById(id);
   }
-  async test() {
-    console.log('test '+User.name);
+
+  async addPartner(userId: string, partnerCode: string) {
+    return this.userRepository.addPartner(userId, partnerCode);
+  }
+
+  async getPartner(userId: string) {
+    return this.userRepository.getPartner(userId);
   }
 }
