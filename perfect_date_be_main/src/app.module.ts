@@ -14,6 +14,7 @@ import { PlansModule } from './modules/plans/plans.module';
 import { ActivitiesModule } from './modules/activities/activities.module';
 import { LikesModule } from './modules/likes/likes.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { GeminiModule } from './modules/gemini/gemini.module';
 
 
 @Module({
@@ -32,7 +33,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     AuthModule, 
     RoleModule, 
     PermissionsModule, 
-    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, LikesModule, NotificationsModule
+    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, LikesModule, NotificationsModule, GeminiModule
   ],
   controllers: [AppController],
   providers: [AppService],
