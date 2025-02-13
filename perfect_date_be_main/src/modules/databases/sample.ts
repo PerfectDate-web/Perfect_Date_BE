@@ -13,7 +13,7 @@ export const INIT_PERMISSIONS = [
     {
         "_id": "648ab6e7fa16b294212e4038",
         "permission_name": "Get User by Id",
-        "permission_apiPath": "/api/v1/users/:id",
+        "permission_apiPath": "/api/v1/users/find-by-id/:id",
         "permission_method": "GET",
         "permission_module": "USERS",
     },
@@ -31,7 +31,20 @@ export const INIT_PERMISSIONS = [
         "permission_method": "GET",
         "permission_module": "USERS",
     },
-
+    {
+        "_id": "648ab6e7fa16b294212e4041",
+        "permission_name": "Update My Info",
+        "permission_apiPath": "/api/v1/users/update-my-info",
+        "permission_method": "PATCH",
+        "permission_module": "USERS",
+    },
+    {
+        "_id": "648ab6e7fa16b294212e4042",
+        "permission_name": "Get My Info",
+        "permission_apiPath": "/api/v1/users/get-my-info",
+        "permission_method": "GET",
+        "permission_module": "USERS",
+    },
     // Plans permissions
     {
         "_id": "648ad720dafdb9754f40b8bb",
@@ -115,4 +128,6 @@ export const USER_PERMISSION_IDS = [
     "648ab6e7fa16b294212e4039",
     "648ab6e7fa16b294212e4040",
     "648ad740dafdb9754f40b8c0",
+    "648ab6e7fa16b294212e4041",
+    "648ab6e7fa16b294212e4042"
 ];

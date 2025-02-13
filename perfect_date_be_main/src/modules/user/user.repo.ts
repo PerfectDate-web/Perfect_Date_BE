@@ -6,6 +6,7 @@ import { CreateUserDto } from "./dto/request/create-user.dto";
 import { randomBytes } from "crypto";
 import { CustomException } from "src/exception-handle/custom-exception";
 import { ErrorCode } from "src/enums/error-code.enum";
+import { UpdateUserDto } from "./dto/request/update-user.dto";
 
 
 @Injectable()
@@ -68,4 +69,13 @@ export class UserRepository {
         .lean();
         return user;
     }
+
+    async updateUser(userId: string, updateUserDto: UpdateUserDto) {
+        return this.userModel.findByIdAndUpdate(userId,{
+            ...updateUserDto,
+            user_name: updateUserDto.name,
+            user_avatar: updateUserDto.avatar,
+        }, { new: true });
+    }
+
 }
