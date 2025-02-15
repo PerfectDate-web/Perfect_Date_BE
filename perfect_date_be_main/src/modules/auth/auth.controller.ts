@@ -12,15 +12,10 @@ import { LocalAuthGuard } from 'src/guards/local.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
-  @Get("google/login")
-  @UseGuards(GoogleAuthGuard)
-  @Public()
-  async googleLogin() {
-    // return this.authService.googleLogin(req);
-  }
+ 
 
   @Public()
-  @Get("google/callback")
+  @Post("google/login")
   @UseGuards(GoogleAuthGuard)
   @ResponseMessage('Login successfully')
   async googleCallback(@User() user: UserInterface, @Res({ passthrough: true }) res: Response) {
