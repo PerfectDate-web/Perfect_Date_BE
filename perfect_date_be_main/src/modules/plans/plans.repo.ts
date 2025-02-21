@@ -71,5 +71,19 @@ export class PlansRepository {
         return plan ? true : false
     }
 
+    async changePlanStatus(planId:string, status:string) {
+        if(status === "public") {
+            const plan = await this.planModel.findByIdAndUpdate(planId, {
+                isPublic: true
+            }, { new: true });
+            return plan;
+        }
+        if(status === "private") {
+            const plan = await this.planModel.findByIdAndUpdate(planId, {
+                isPublic: false
+            }, { new: true });
+            return plan;
+        }
 
+    }
 }

@@ -4,6 +4,7 @@ import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { UserRepository } from './user.repo';
+import { UploadModule } from '../upload/upload.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { UserRepository } from './user.repo';
         name: User.name,
         schema: UserSchema,
       },
-    ])
+    ]),
+    UploadModule
   ],
   controllers: [UserController],
   providers: [UserService,UserRepository],

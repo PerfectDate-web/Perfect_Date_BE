@@ -22,13 +22,6 @@ export class Plan  {
     isPublic: boolean;
 
     @Prop({
-        default: function () {
-            return `https://myapp.com/plan/${this.inviteCode}`;
-        },
-    })
-    sharedLink: string;
-
-    @Prop({
         required: true,
     })
     startDate: Date;

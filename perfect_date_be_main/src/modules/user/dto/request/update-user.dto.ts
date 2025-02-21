@@ -10,4 +10,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     @IsString()
     @IsOptional()
     user_birthdate: string;
+
+    @IsString()
+    @IsOptional()
+    user_avatar: string;
 }

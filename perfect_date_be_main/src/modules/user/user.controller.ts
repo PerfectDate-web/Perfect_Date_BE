@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { ResponseMessage } from 'src/decorators/response-message.decorator';
 import { User } from 'src/decorators/user-infor.decorator';
 import { UserInterface } from './dto/response/user.interface';
 import { UpdateUserDto } from './dto/request/update-user.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 
 @Controller('users')
@@ -39,8 +40,9 @@ export class UserController {
 
   @Patch("update-my-info")
   @ResponseMessage('User info updated')
-  async updateMyInfo(@User() user: UserInterface, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(user._id, updateUserDto);
+  @UseInterceptors(FileInterceptor('file'))
+  async updateMyInfo(@UploadedFile() file: Express.Multer.File, @User() user: UserInterface, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.updateUser(user._id, file, updateUserDto);
   }
 
   @Get("get-my-info")

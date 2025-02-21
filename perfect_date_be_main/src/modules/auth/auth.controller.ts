@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { GoogleAuthGuard } from 'src/guards/google.guard';
 import { User } from 'src/decorators/user-infor.decorator';
 import { UserInterface } from '../user/dto/response/user.interface';
 import { Public } from 'src/decorators/public.decorator';
@@ -16,10 +15,9 @@ export class AuthController {
 
   @Public()
   @Post("google/login")
-  @UseGuards(GoogleAuthGuard)
   @ResponseMessage('Login successfully')
-  async googleCallback(@User() user: UserInterface, @Res({ passthrough: true }) res: Response) {
-    return this.authService.login(user, res);
+  async googleCallback(@Body("idToken") idToken: string, @Res({ passthrough: true }) res: Response) {
+    return this.authService.verifyGoogleToken(idToken, res);
   }
 
   @Get('refresh-token')

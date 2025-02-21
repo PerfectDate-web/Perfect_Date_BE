@@ -2,7 +2,7 @@ export const ADMIN_ROLE = "ADMIN";
 export const USER_ROLE = "USER";
 
 export const INIT_PERMISSIONS = [
-    // User permissions
+    // Existing permissions
     {
         "_id": "648ab6d3fa16b294212e4033",
         "permission_name": "Create User",
@@ -67,37 +67,6 @@ export const INIT_PERMISSIONS = [
         "permission_method": "GET",
         "permission_module": "PLANS",
     },
-
-    // Likes permissions
-    {
-        "_id": "648ad5ebdafdb9754f40b895",
-        "permission_name": "Like Plan",
-        "permission_apiPath": "/api/v1/likes",
-        "permission_method": "POST",
-        "permission_module": "LIKES",
-    },
-    {
-        "_id": "648ad5d4dafdb9754f40b890",
-        "permission_name": "Unlike Plan",
-        "permission_apiPath": "/api/v1/likes/unlike",
-        "permission_method": "POST",
-        "permission_module": "LIKES",
-    },
-    {
-        "_id": "648ad5c5dafdb9754f40b88b",
-        "permission_name": "Check if Plan is Liked",
-        "permission_apiPath": "/api/v1/likes/check",
-        "permission_method": "POST",
-        "permission_module": "LIKES",
-    },
-    {
-        "_id": "648ad5aedafdb9754f40b886",
-        "permission_name": "Get Number of Likes for Plan",
-        "permission_apiPath": "/api/v1/likes/:planId",
-        "permission_method": "GET",
-        "permission_module": "LIKES",
-    },
-
     // Activities permissions
     {
         "_id": "648ad622dafdb9754f40b89f",
@@ -112,22 +81,68 @@ export const INIT_PERMISSIONS = [
         "permission_apiPath": "/api/v1/activities/plan/:planId",
         "permission_method": "GET",
         "permission_module": "ACTIVITIES",
+    },
+    // Post permissions
+    {
+        "_id": "648ad750dafdb9754f40b8d1",
+        "permission_name": "Create Post",
+        "permission_apiPath": "/api/v1/post",
+        "permission_method": "POST",
+        "permission_module": "POSTS",
+    },
+    {
+        "_id": "648ad750dafdb9754f40b8d2",
+        "permission_name": "Get Posts By Location",
+        "permission_apiPath": "/api/v1/post/location",
+        "permission_method": "GET",
+        "permission_module": "POSTS",
+    },
+    {
+        "_id": "648ad750dafdb9754f40b8d3",
+        "permission_name": "Get Popular Posts",
+        "permission_apiPath": "/api/v1/post/popular",
+        "permission_method": "GET",
+        "permission_module": "POSTS",
+    },
+    {
+        "_id": "648ad750dafdb9754f40b8d4",
+        "permission_name": "Get Latest Posts",
+        "permission_apiPath": "/api/v1/post/latest",
+        "permission_method": "GET",
+        "permission_module": "POSTS",
+    },
+    {
+        "_id": "648ad750dafdb9754f40b8d5",
+        "permission_name": "Like Post",
+        "permission_apiPath": "/api/v1/post/like",
+        "permission_method": "PATCH",
+        "permission_module": "POSTS",
+    },
+    {
+        "_id": "648ad750dafdb9754f40b8d6",
+        "permission_name": "Unlike Post",
+        "permission_apiPath": "/api/v1/post/unlike",
+        "permission_method": "PATCH",
+        "permission_module": "POSTS",
     }
 ];
 
 export const USER_PERMISSION_IDS = [
+    // Existing permissions
     "648ad720dafdb9754f40b8bb",
     "648ad730dafdb9754f40b8be",
     "648ad622dafdb9754f40b89f",
     "648ad630dafdb9754f40b8a6",
-    "648ad5ebdafdb9754f40b895",
-    "648ad5d4dafdb9754f40b890",
-    "648ad5c5dafdb9754f40b88b",
-    "648ad5aedafdb9754f40b886",
     "648ad740dafdb9754f40b8bf",
     "648ab6e7fa16b294212e4039",
     "648ab6e7fa16b294212e4040",
     "648ad740dafdb9754f40b8c0",
     "648ab6e7fa16b294212e4041",
-    "648ab6e7fa16b294212e4042"
+    "648ab6e7fa16b294212e4042",
+    "648ad750dafdb9754f40b8d1",
+    "648ad750dafdb9754f40b8d2",
+    "648ad750dafdb9754f40b8d3",
+    "648ad750dafdb9754f40b8d4",
+    "648ad750dafdb9754f40b8d5",
+    "648ad750dafdb9754f40b8d6"
 ];

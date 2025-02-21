@@ -10,9 +10,11 @@ import { CustomException } from 'src/exception-handle/custom-exception';
 import { ErrorCode } from 'src/enums/error-code.enum';
 import { access_token_private_key, access_token_public_key, refresh_token_private_key, refresh_token_public_key } from 'src/constants/jwt.constants';
 import { Response } from 'express';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
+    private client = new OAuth2Client(`${this.configService.get<string>('GG_CLIENT_ID')}`);
     constructor(
         private readonly userRepository: UserRepository,
         private readonly jwtService: JwtService,
@@ -165,5 +167,29 @@ export class AuthService {
         } catch (error) {
             throw error;
         }
+    }
+
+    async verifyGoogleToken(idToken: string, res: Response) {
+        const ticket = await this.client.verifyIdToken({
+            idToken,
+            audience: this.configService.get<string>('GG_CLIENT_ID'),
+        });
+
+        const payload = ticket.getPayload();
+        if (!payload) throw new Error("Invalid Token");
+        const verifiedUser = await this.validateGoogleUser({
+            email: payload.email!,
+            avatar: payload.picture!,
+            name: payload.name!,
+            verified: true,
+        })
+
+        const user = {
+            _id: verifiedUser._id.toString(),
+            user_email: verifiedUser.user_email,
+            user_role: verifiedUser.user_role,
+        } as UserInterface;
+
+        return await this.login(user, res);
     }
 }

@@ -18,6 +18,9 @@ export class PlansService {
 
   async create(createPlanDto: CreatePlanDto) {
     const partner= await this.userRepository.getPartner(createPlanDto.createdBy) as any ;
+    if(!partner.your_partner) {
+      throw new CustomException(ErrorCode.PARTNER_NOT_FOUND);
+    }
     createPlanDto.partnerId = partner.your_partner._id ;
     const newPlan = await this.plansRepository.createPlan(createPlanDto);
     if (!newPlan) {

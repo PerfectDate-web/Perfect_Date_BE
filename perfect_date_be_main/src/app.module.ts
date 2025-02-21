@@ -12,9 +12,10 @@ import { KeyTokenModule } from './modules/key-token/key-token.module';
 import { DatabasesModule } from './modules/databases/databases.module';
 import { PlansModule } from './modules/plans/plans.module';
 import { ActivitiesModule } from './modules/activities/activities.module';
-import { LikesModule } from './modules/likes/likes.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { GeminiModule } from './modules/gemini/gemini.module';
+import { PostModule } from './modules/post/post.module';
+import { UploadModule } from './modules/upload/upload.module';
 
 
 @Module({
@@ -33,7 +34,7 @@ import { GeminiModule } from './modules/gemini/gemini.module';
     AuthModule, 
     RoleModule, 
     PermissionsModule, 
-    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, LikesModule, NotificationsModule, GeminiModule
+    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, NotificationsModule, GeminiModule, PostModule, UploadModule
   ],
   controllers: [AppController],
   providers: [AppService],

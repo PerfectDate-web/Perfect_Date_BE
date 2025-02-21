@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { GoogleStrategy } from 'src/strategies/google.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
 import { KeyTokenModule } from '../key-token/key-token.module';
@@ -23,6 +22,6 @@ import { LocalStrategy } from 'src/strategies/local.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy, JwtAccessTokenStrategy, LocalStrategy],
+  providers: [AuthService, JwtAccessTokenStrategy, LocalStrategy],
 })
 export class AuthModule { }
