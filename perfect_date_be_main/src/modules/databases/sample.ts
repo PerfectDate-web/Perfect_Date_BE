@@ -91,27 +91,6 @@ export const INIT_PERMISSIONS = [
         "permission_module": "POSTS",
     },
     {
-        "_id": "648ad750dafdb9754f40b8d2",
-        "permission_name": "Get Posts By Location",
-        "permission_apiPath": "/api/v1/post/location",
-        "permission_method": "GET",
-        "permission_module": "POSTS",
-    },
-    {
-        "_id": "648ad750dafdb9754f40b8d3",
-        "permission_name": "Get Popular Posts",
-        "permission_apiPath": "/api/v1/post/popular",
-        "permission_method": "GET",
-        "permission_module": "POSTS",
-    },
-    {
-        "_id": "648ad750dafdb9754f40b8d4",
-        "permission_name": "Get Latest Posts",
-        "permission_apiPath": "/api/v1/post/latest",
-        "permission_method": "GET",
-        "permission_module": "POSTS",
-    },
-    {
         "_id": "648ad750dafdb9754f40b8d5",
         "permission_name": "Like Post",
         "permission_apiPath": "/api/v1/post/like",
@@ -124,6 +103,21 @@ export const INIT_PERMISSIONS = [
         "permission_apiPath": "/api/v1/post/unlike",
         "permission_method": "PATCH",
         "permission_module": "POSTS",
+    },
+    // Report Support permissions
+    {
+        "_id": "648ad750dafdb9754f40b8d2",
+        "permission_name": "Create Report Support",
+        "permission_apiPath": "/api/v1/report-support",
+        "permission_method": "POST",
+        "permission_module": "REPORT-SUPPORT",
+    },
+    {
+        "_id": "648ad750dafdb9754f40b8d3",
+        "permission_name": "Get Popular Posts",
+        "permission_apiPath": "/api/v1/report-support",
+        "permission_method": "GET",
+        "permission_module": "REPORT-SUPPORT",
     }
 ];
 
@@ -140,9 +134,6 @@ export const USER_PERMISSION_IDS = [
     "648ab6e7fa16b294212e4041",
     "648ab6e7fa16b294212e4042",
     "648ad750dafdb9754f40b8d1",
-    "648ad750dafdb9754f40b8d2",
-    "648ad750dafdb9754f40b8d3",
-    "648ad750dafdb9754f40b8d4",
     "648ad750dafdb9754f40b8d5",
-    "648ad750dafdb9754f40b8d6"
+    "648ad750dafdb9754f40b8d6",
 ];

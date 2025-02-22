@@ -33,4 +33,18 @@ export class UtilsService {
         });
         return obj;
     }
+
+    static paginateResponse<T>(items: T[], limit: number, page: number) {
+        const totalPages = Math.ceil(items.length / limit);
+        
+        return {
+          metadata: {
+            totalPages,
+            currentPage: page,
+            limit,
+            totalItems: items.length,
+          },
+          data: items,
+        };
+    }
 }

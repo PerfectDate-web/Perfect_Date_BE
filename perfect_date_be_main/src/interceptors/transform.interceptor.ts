@@ -13,7 +13,7 @@ import { RESPONSE_MESSAGE } from 'src/decorators/response-message.decorator';
 export interface Response<T> {
     statusCode: number;
     message?: string;
-    metadata: any;
+    result: any;
 }
 
 @Injectable()
@@ -31,7 +31,7 @@ export class TransformInterceptor<T>
                 map((data) => ({
                     statusCode: context.switchToHttp().getResponse().statusCode,
                     message: this.reflector.get<string>(RESPONSE_MESSAGE, context.getHandler(),) || '',
-                    metadata: data
+                    result: data
                 })),
             );
     }

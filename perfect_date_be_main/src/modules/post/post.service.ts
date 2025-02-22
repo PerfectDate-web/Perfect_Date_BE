@@ -6,6 +6,7 @@ import { PlansRepository } from '../plans/plans.repo';
 import { ErrorCode } from 'src/enums/error-code.enum';
 import { CustomException } from 'src/exception-handle/custom-exception';
 import { UploadService } from '../upload/upload.service';
+import { UtilsService } from 'src/utils/utils.service';
 
 @Injectable()
 export class PostService {
@@ -32,18 +33,21 @@ export class PostService {
   }
   
   async getPostsByLocation(city:string, limit:number, page:number) {
-    const posts = await this.postRepository.findPostByLocation(city, limit, page);
-    return posts;
+    const skip = (page - 1) * limit;
+    const posts = await this.postRepository.findPostByLocation(city, limit, skip);
+    return UtilsService.paginateResponse(posts, limit, page);
   }
 
   async getPopularPosts(limit:number, page:number) {
-    const posts = await this.postRepository.getPopularPost(limit, page);
-    return posts;
+    const skip = (page - 1) * limit;
+    const posts = await this.postRepository.getPopularPost(limit, skip);
+    return UtilsService.paginateResponse(posts, limit, page);
   }
 
   async getLatestPosts(limit:number, page:number) {
-    const posts = await this.postRepository.getLatestPost(limit, page);
-    return posts;
+    const skip = (page - 1) * limit;
+    const posts = await this.postRepository.getLatestPost(limit, skip);
+    return UtilsService.paginateResponse(posts, limit, page);
   }
 
   async likePost(postId:string, userId:string) {

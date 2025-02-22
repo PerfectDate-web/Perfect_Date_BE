@@ -16,6 +16,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { GeminiModule } from './modules/gemini/gemini.module';
 import { PostModule } from './modules/post/post.module';
 import { UploadModule } from './modules/upload/upload.module';
+import { ReportSupportModule } from './modules/report-support/report-support.module';
 
 
 @Module({
@@ -34,7 +35,7 @@ import { UploadModule } from './modules/upload/upload.module';
     AuthModule, 
     RoleModule, 
     PermissionsModule, 
-    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, NotificationsModule, GeminiModule, PostModule, UploadModule
+    KeyTokenModule, DatabasesModule, PlansModule, ActivitiesModule, NotificationsModule, GeminiModule, PostModule, UploadModule, ReportSupportModule
   ],
   controllers: [AppController],
   providers: [AppService],

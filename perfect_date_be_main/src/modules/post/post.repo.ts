@@ -23,8 +23,7 @@ export class PostRepository {
         return post;
     }
 
-    async findPostByLocation(city: string, limit: number, page: number) {
-        const skip = (page - 1) * limit;
+    async findPostByLocation(city: string, limit: number, skip:number) {
         const post = await this.postModel.find({
             city: city
         }).skip(skip).limit(limit).lean();
@@ -32,8 +31,7 @@ export class PostRepository {
     }
 
 
-    async getPopularPost(limit: number, page: number) {
-        const skip = (page - 1) * limit;
+    async getPopularPost(limit: number, skip:number) {
         const post = await this.postModel.find()
             .populate("createdBy")
             .sort({ likedBy: -1, createdAt: -1 })
@@ -43,8 +41,7 @@ export class PostRepository {
         return post;
     }
 
-    async getLatestPost(limit: number, page: number) {
-        const skip = (page - 1) * limit;
+    async getLatestPost(limit: number, skip:number) {
         const post = await this.postModel.find()
             .populate("createdBy")
             .sort({ createdAt: -1 })

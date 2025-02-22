@@ -21,7 +21,7 @@ export class DatabasesService implements OnModuleInit {
         const isInit = this.configService.get<string>('SHOULD_INIT');
         if (Boolean(isInit)) {
 
-            const countUsers = await this.userModel.countDocuments();
+            const user = await this.userModel.findOne({ user_email: "admin@gmail.com" });
             const countRoles = await this.roleModel.countDocuments();
             const countPermissions = await this.permissionModel.countDocuments();
 
@@ -45,7 +45,7 @@ export class DatabasesService implements OnModuleInit {
                     }
                 ])
             }
-            if (countUsers == 0) {
+            if (!user) {
                 await this.userModel.insertMany([
                     {
                         user_email: "admin@gmail.com",
@@ -64,7 +64,7 @@ export class DatabasesService implements OnModuleInit {
                 ])
             }
 
-            if (countUsers > 0 && countRoles > 0 && countPermissions > 0) {
+            if ( countRoles > 0 && countPermissions > 0) {
                 this.logger.log('>>> ALREADY INIT SAMPLE DATA...');
             }
         }
