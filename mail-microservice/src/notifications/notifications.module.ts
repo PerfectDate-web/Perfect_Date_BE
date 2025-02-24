@@ -8,6 +8,7 @@ import { BullModule } from '@nestjs/bull';
 import { NotificationProcessor } from './notification.processor';
 import { MailModule } from 'src/mail/mail.module';
 import { User, UserSchema } from 'src/users/schemas/users.schema';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
 @Module({
@@ -24,13 +25,19 @@ import { User, UserSchema } from 'src/users/schemas/users.schema';
         collection: 'users' 
       },
     ]),
-    BullModule.registerQueue({
-      name: 'notification-queue',
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
-    }),
+    BullModule.registerQueueAsync(
+      {
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          name: 'notification-queue',
+          redis: {
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT'),
+          },
+        }),
+        inject: [ConfigService],
+      }
+    ),
   ],
   controllers: [NotificationsController],
   providers: [NotificationsService, NotificationRepository, NotificationProcessor],
