@@ -23,7 +23,7 @@ export class UtilsService {
         // Duyệt qua tất cả các khóa của đối tượng
         Object.keys(obj).forEach(key => {
             // Nếu giá trị là null, undefined hoặc chuỗi rỗng, xóa thuộc tính đó
-            if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
+            if (obj[key] === undefined || obj[key] === null || obj[key] === '' || obj[key] === "Invalid Date") {
                 delete obj[key];
             }
             // Nếu giá trị là đối tượng, gọi đệ quy để xử lý
@@ -32,6 +32,11 @@ export class UtilsService {
             }
         });
         return obj;
+    }
+
+    static removeUndefinedAndNullFromArray(arr: any[]) {
+        const objectAfterRemove = arr.map(item => this.removeUndefinedAndNull(item));
+        return objectAfterRemove;
     }
 
     static paginateResponse<T>(items: T[], limit: number, page: number) {

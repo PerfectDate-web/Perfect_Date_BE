@@ -26,6 +26,10 @@ import { User, UserSchema } from 'src/users/schemas/users.schema';
     ]),
     BullModule.registerQueue({
       name: 'notification-queue',
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
     }),
   ],
   controllers: [NotificationsController],

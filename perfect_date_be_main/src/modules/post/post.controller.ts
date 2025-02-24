@@ -17,13 +17,14 @@ export class PostController {
   @UseInterceptors(FileInterceptor('file'))
   createPost(@Body() dto: CreatePostDto, @UploadedFile() file: Express.Multer.File, @User() user: UserInterface) {
     dto.createdBy = user._id;
+    
     return this.postService.createPost(dto, file);
   }
 
   @Get("location")
   @Public()
   @ResponseMessage("Posts fetched successfully")
-  getPostsByLocation(@Body("city") city: string, @Query("limit") limit: number, @Query("page") page: number) {
+  getPostsByLocation(@Query("city") city: string, @Query("limit") limit: number, @Query("page") page: number) {
     return this.postService.getPostsByLocation(city, limit, page);
   }
 

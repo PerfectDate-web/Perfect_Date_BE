@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Types } from "mongoose";
-import { User } from "src/decorators/user-infor.decorator";
 import { Plan } from "src/modules/plans/schemas/plan.schemas";
+import { User } from "src/modules/user/schemas/user.schema";
 
 @Schema({
     timestamps: true,
@@ -17,10 +17,14 @@ export class Post {
     @Prop({ required: true })
     content: string;
 
+    
+    @Prop({ required: true })
+    title: string;
+
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }], default: [] })
     likedBy: Types.ObjectId[];
 
-    @Prop({ type: String, required: true })
+    @Prop({ type: String ,default: ""})
     image: string;
 
     @Prop({

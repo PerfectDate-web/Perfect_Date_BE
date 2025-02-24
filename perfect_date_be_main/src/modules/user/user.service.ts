@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repo';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { User } from './schemas/user.schema';
@@ -7,28 +7,33 @@ import { UtilsService } from 'src/utils/utils.service';
 import { UploadService } from '../upload/upload.service';
 import { ErrorCode } from 'src/enums/error-code.enum';
 import { CustomException } from 'src/exception-handle/custom-exception';
+import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Injectable()
 export class UserService {
   constructor(
     private userRepository: UserRepository,
-    private uploadService: UploadService
+    private uploadService: UploadService,
   ) { }
 
   async createUser(dto: CreateUserDto) {
-    return this.userRepository.createUser(dto);
+    const user = await this.userRepository.createUser(dto);
+    return user;
   }
 
   async findById(id: string) {
-    return this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+    return user;
   }
 
   async addPartner(userId: string, partnerCode: string) {
-    return this.userRepository.addPartner(userId, partnerCode);
+    const user = await this.userRepository.addPartner(userId, partnerCode);
+    return user;
   }
 
   async getPartner(userId: string) {
-    return this.userRepository.getPartner(userId);
+    const partner = await this.userRepository.getPartner(userId);
+    return partner;
   }
 
   async updateUser(userId: string, file: Express.Multer.File, updateUserDto: UpdateUserDto) {
@@ -50,7 +55,8 @@ export class UserService {
       updateUserDto.user_avatar = uploadResult.secure_url;
     }
     const objectAfterRemove = UtilsService.removeUndefinedAndNull(updateUserDto) as UpdateUserDto;
-    return await this.userRepository.updateUser(userId, objectAfterRemove);
+    const userUpdate = await this.userRepository.updateUser(userId, objectAfterRemove);
+    return userUpdate;
   }
 
   private extractPublicIdFromUrl(url: string): string {

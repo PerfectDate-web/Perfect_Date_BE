@@ -82,6 +82,20 @@ export const INIT_PERMISSIONS = [
         "permission_method": "GET",
         "permission_module": "ACTIVITIES",
     },
+    {
+        "_id": "648ad630dafdb9754f40b8a7",
+        "permission_name": "Create Many Activities",
+        "permission_apiPath": "/api/v1/activities/many",
+        "permission_method": "POST",
+        "permission_module": "ACTIVITIES",
+    },
+    {
+        "_id": "648ad630dafdb9754f40b8a8",
+        "permission_name": "Update Many Activities",
+        "permission_apiPath": "/api/v1/activities/many",
+        "permission_method": "PATCH",
+        "permission_module": "ACTIVITIES",
+    },
     // Post permissions
     {
         "_id": "648ad750dafdb9754f40b8d1",
@@ -136,4 +150,6 @@ export const USER_PERMISSION_IDS = [
     "648ad750dafdb9754f40b8d1",
     "648ad750dafdb9754f40b8d5",
     "648ad750dafdb9754f40b8d6",
+    "648ad630dafdb9754f40b8a7",
+    "648ad630dafdb9754f40b8a8"
 ];

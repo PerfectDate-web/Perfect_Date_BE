@@ -21,6 +21,10 @@ export class CreatePostDto {
     @IsNotEmpty()
     city: string;
 
+    @IsNotEmpty()
+    @IsString()
+    title: string;
+
 }
 
     

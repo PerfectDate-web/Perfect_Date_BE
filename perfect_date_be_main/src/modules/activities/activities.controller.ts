@@ -21,4 +21,16 @@ export class ActivitiesController {
   getActivitiesByPlan(@Param('planId') planId: string) {
     return this.activitiesService.getActivitiesByPlan(planId);
   }
+
+  @Post('/many')
+  @ResponseMessage("Activities created successfully")
+  createManyActivities(@Body('activities') createActivityDto: CreateActivityDto[]) {
+    return this.activitiesService.createManyActivities(createActivityDto);
+  }
+
+  @Patch('/many')
+  @ResponseMessage("Activities updated successfully")
+  updateManyActivities(@Body('activities') updateActivityDto: UpdateActivityDto[]) {
+    return this.activitiesService.updateManyActivities(updateActivityDto);
+  }
 }

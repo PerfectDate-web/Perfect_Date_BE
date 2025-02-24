@@ -18,22 +18,28 @@ export class PostRepository {
             createdBy: dto.createdBy,
             planId: dto.planId,
             image: dto.image,
-            city: dto.city
+            city: dto.city,
+            title: dto.title
         });
         return post;
     }
 
-    async findPostByLocation(city: string, limit: number, skip:number) {
+    async findPostByLocation(city: string, limit: number, skip: number) {
         const post = await this.postModel.find({
             city: city
-        }).skip(skip).limit(limit).lean();
+        })
+        .populate("createdBy","user_name image user_email -_id")
+        .skip(skip)
+        .limit(limit)
+        .lean();
+        
         return post;
     }
 
 
-    async getPopularPost(limit: number, skip:number) {
+    async getPopularPost(limit: number, skip: number) {
         const post = await this.postModel.find()
-            .populate("createdBy")
+            .populate("createdBy","user_name image user_email -_id")
             .sort({ likedBy: -1, createdAt: -1 })
             .limit(limit)
             .skip(skip)
@@ -41,9 +47,9 @@ export class PostRepository {
         return post;
     }
 
-    async getLatestPost(limit: number, skip:number) {
+    async getLatestPost(limit: number, skip: number) {
         const post = await this.postModel.find()
-            .populate("createdBy")
+            .populate("createdBy","user_name image user_email -_id")
             .sort({ createdAt: -1 })
             .limit(limit)
             .skip(skip)
@@ -79,7 +85,7 @@ export class PostRepository {
         return post.likedBy.includes(new Types.ObjectId(userId));
     }
 
-    async getMyPostLiked(userId:string) {
+    async getMyPostLiked(userId: string) {
         const post = await this.postModel.find({
             likedBy: userId
         }).populate("createdBy").lean();
